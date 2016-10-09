@@ -9,6 +9,8 @@
 #include "vccs.h"
 #include "ccvs.h"
 #include "dio.h"
+#include "tf.h"
+#include "gyro.h"
 
 int NumNodes = 0;
 int NumBranches = 0;
@@ -29,6 +31,8 @@ char **av;
     vccs	*Gsrc[MAXELEM];
     ccvs	*Hsrc[MAXELEM];
     diode    	*Dio[MAXELEM]; 
+    transformer    *Tf[MAXELEM]; 
+    gyrator    *Gyro[MAXELEM]; 
     int i = 0;
     int j = 0;
     int numRes = 0;
@@ -39,6 +43,8 @@ char **av;
     int numGsrc = 0;
     int numHsrc = 0;
     int numDio = 0;
+    int numTf = 0;
+    int numGyro = 0;
     int numEqns;
     double **cktMatrix;
     double *Rhs;
@@ -114,6 +120,18 @@ char **av;
 	numDio++;
 	    makeDio(Dio, numDio, buf);
 	}
+	else if(tolower(buf[0]) == 'n') 
+	{
+	    /* transformer */
+	numTf++;
+	    makeTf(Tf, numTf, buf);
+	}
+	else if(tolower(buf[0]) == 't') 
+	{
+	    /* gyrator */
+	numGyro++;
+	    makeGyro(Gyro, numGyro, buf);
+	}
     }
     fclose( fpIn );
 
@@ -126,6 +144,8 @@ char **av;
     printGsrc(Gsrc, numGsrc); 
     printHsrc(Hsrc, numHsrc); 
     printDio(Dio, numDio);
+    printTf(Tf, numTf);
+    printGyro(Gyro, numGyro);
 
     /* setup circuit matrix */
     numEqns = NumNodes+NumBranches+1;
@@ -146,6 +166,8 @@ char **av;
     setupHsrc(Hsrc, numHsrc);
     setupIsrc(Isrc, numIsrc);
     setupDio(Dio, numDio);
+    setupTf(Tf, numTf);
+    setupGyro(Gyro, numGyro);
 
     /* stamp circuit matrix */
     stampRes(Res, numRes, cktMatrix, Rhs);
