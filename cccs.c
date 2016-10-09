@@ -71,7 +71,7 @@ double **cktMatrix;
      pNode = Fsrc[i]->pNode;
      nNode = Fsrc[i]->nNode;
      cbranchNum = Fsrc[i]->cbranchNum;
-     gain = Fsrc[i]->gain
+     gain = Fsrc[i]->gain;
      //KCL for pNode & nNode 
      cktMatrix[pNode][cbranchNum] += gain; //I leaving pNode
      cktMatrix[nNode][cbranchNum] -= gain;

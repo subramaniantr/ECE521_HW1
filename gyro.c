@@ -67,7 +67,7 @@ double **cktMatrix;
 double *Rhs;
 {
     int i, p2Node, n2Node, p1Node, n1Node;
-    double n ;
+    double r ;
     /* stamp T source*/
     for(i = 1; i <= numGyro; i++) {
 	p2Node = Gyro[i]->p2Node;
