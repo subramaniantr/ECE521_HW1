@@ -6,6 +6,6 @@ typedef struct gyrator{
     int n2Node; /* number of negative node of vcvs */
     int p1Node; /* number of positive control node of vcvs */
     int n1Node; /* number of negative control node of vcvs */
-    int r;  /* value of n */
+    int g;  /* value of n */
 } gyrator ;
 

@@ -31,7 +31,7 @@ char *buf;
     inst->n1Node = nodeB;
     inst->p2Node = nodeC;
     inst->n2Node = nodeD;
-    inst->r = value;
+    inst->g = value;
     Gyro[numGyro] = inst;
 }
 
@@ -43,7 +43,7 @@ int numGyro;
     gyrator *inst;
     for(i = 1; i <= numGyro; i++) {
 	inst = Gyro[i];
-	printf("%s\t%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->p2Node], NodeArray[inst->n2Node], NodeArray[inst->p1Node], NodeArray[inst->n1Node], inst->r);
+	printf("%s\t%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->p2Node], NodeArray[inst->n2Node], NodeArray[inst->p1Node], NodeArray[inst->n1Node], inst->g);
     }
 }
 
@@ -67,22 +67,22 @@ double **cktMatrix;
 double *Rhs;
 {
     int i, p2Node, n2Node, p1Node, n1Node;
-    double r ;
+    double g ;
     /* stamp T source*/
     for(i = 1; i <= numGyro; i++) {
 	p2Node = Gyro[i]->p2Node;
 	n2Node = Gyro[i]->n2Node;
 	p1Node = Gyro[i]->p1Node;
 	n1Node = Gyro[i]->n1Node;
-        r   = Gyro[i]->r;
+        g      = Gyro[i]->g;
         //KCL for p2Node,n2Node,p1Node and n1Node
- 	cktMatrix[p1Node][p2Node] += r; 
- 	cktMatrix[p1Node][n2Node] -= r;
- 	cktMatrix[n1Node][p2Node] -= r;
- 	cktMatrix[n1Node][n2Node] += r;
- 	cktMatrix[p2Node][p1Node] -= r;
- 	cktMatrix[p2Node][n1Node] += r;
- 	cktMatrix[n2Node][p1Node] -= r;
- 	cktMatrix[n2Node][n1Node] += r;
+ 	cktMatrix[p1Node][p2Node] += g; 
+ 	cktMatrix[p1Node][n2Node] -= g;
+ 	cktMatrix[n1Node][p2Node] -= g;
+ 	cktMatrix[n1Node][n2Node] += g;
+ 	cktMatrix[p2Node][p1Node] -= g;
+ 	cktMatrix[p2Node][n1Node] += g;
+ 	cktMatrix[n2Node][p1Node] += g;
+ 	cktMatrix[n2Node][n1Node] -= g;
     }
 }

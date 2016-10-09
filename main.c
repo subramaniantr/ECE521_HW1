@@ -177,6 +177,8 @@ char **av;
     stampFsrc(Fsrc, numFsrc, cktMatrix, Rhs);
     stampGsrc(Gsrc, numGsrc, cktMatrix, Rhs);
     stampHsrc(Hsrc, numHsrc, cktMatrix, Rhs);
+    stampTf(Tf, numTf, cktMatrix, Rhs);
+    stampGyro(Gyro, numGyro, cktMatrix, Rhs);
 
     /* print circuit matrix */
     printf("\n");

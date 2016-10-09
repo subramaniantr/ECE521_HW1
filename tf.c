@@ -82,14 +82,14 @@ double *Rhs;
 	branchNum = Tf[i]->branchNum;
         n   = Tf[i]->n;
         //KCL for p2Node,n2Node,p1Node and n1Node
- 	cktMatrix[p2Node][branchNum] -= n; 
- 	cktMatrix[n2Node][branchNum] += n;
  	cktMatrix[p1Node][branchNum] += 1;
  	cktMatrix[n1Node][branchNum] -= 1;
+ 	cktMatrix[p2Node][branchNum] -= n; 
+ 	cktMatrix[n2Node][branchNum] += n;
         //BCE for Transformer : (V1p-V1n)-n*(V2p-V2n)=0
- 	cktMatrix[branchNum][p2Node] += n;
- 	cktMatrix[branchNum][n2Node] -= n;
  	cktMatrix[branchNum][p1Node] -= 1;
  	cktMatrix[branchNum][n1Node] += 1;
+ 	cktMatrix[branchNum][p2Node] += n;
+ 	cktMatrix[branchNum][n2Node] -= n;
     }
 }
