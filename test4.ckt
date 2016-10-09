@@ -1,0 +1,6 @@
+v1 1 0 10
+r3 1 node2 100
+r4 node2 node3 100
+r5 node3 4 100
+r1 4 0 100
+

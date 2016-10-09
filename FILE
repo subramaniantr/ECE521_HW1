@@ -1,0 +1,1889 @@
+#!/bin/sh
+# This is a shell archive (produced by GNU sharutils 4.7).
+# To extract the files from this archive, save it to some FILE, remove
+# everything before the `#!/bin/sh' line above, then type `sh FILE'.
+#
+lock_dir=_sh22235
+# Made on 2016-09-20 14:51 PDT by <karti@nome00.eecs.oregonstate.edu>.
+# Source directory was `/nfs/guille/ams/users/karti/ece521/c-code/hw1'.
+#
+# Existing files will *not* be overwritten, unless `-c' is specified.
+#
+# This shar contains:
+# length mode       name
+# ------ ---------- ------------------------------------------
+#   1492 -rw------- cccs.c
+#   1600 -rw------- ccvs.c
+#   1199 -rw------- dio.c
+#   1486 -rw------- isrc.c
+#   3733 -rw------- main.c
+#   1605 -rw------- res.c
+#   2198 -rw------- utils.c
+#   1846 -rw------- vccs.c
+#   1693 -rw------- vcvs.c
+#   1855 -rw------- vsrc.c
+#    357 -rw------- cccs.h
+#    407 -rw------- ccvs.h
+#    199 -rw------- defs.h
+#    379 -rw------- dio.h
+#    319 -rw------- isrc.h
+#   1237 -rw------- macros.h
+#    355 -rw------- res.h
+#    432 -rw------- vccs.h
+#    461 -rw------- vcvs.h
+#    358 -rw------- vsrc.h
+#    295 -rw------- Makefile
+#     82 -rw------- test1.ckt
+#     79 -rw------- test2.ckt
+#     62 -rw------- test3.ckt
+#     71 -rw------- test4.ckt
+#     78 -rw------- test5.ckt
+#     85 -rw------- test6.ckt
+#     70 -rw------- test7.ckt
+#    465 -rw------- test.ckt
+#
+MD5SUM=${MD5SUM-md5sum}
+f=`${MD5SUM} --version | egrep '^md5sum .*(core|text)utils'`
+test -n "${f}" && md5check=true || md5check=false
+${md5check} || \
+  echo 'Note: not verifying md5sums.  Consider installing GNU coreutils.'
+save_IFS="${IFS}"
+IFS="${IFS}:"
+gettext_dir=FAILED
+locale_dir=FAILED
+first_param="$1"
+for dir in $PATH
+do
+  if test "$gettext_dir" = FAILED && test -f $dir/gettext \
+     && ($dir/gettext --version >/dev/null 2>&1)
+  then
+    case `$dir/gettext --version 2>&1 | sed 1q` in
+      *GNU*) gettext_dir=$dir ;;
+    esac
+  fi
+  if test "$locale_dir" = FAILED && test -f $dir/shar \
+     && ($dir/shar --print-text-domain-dir >/dev/null 2>&1)
+  then
+    locale_dir=`$dir/shar --print-text-domain-dir`
+  fi
+done
+IFS="$save_IFS"
+if test "$locale_dir" = FAILED || test "$gettext_dir" = FAILED
+then
+  echo=echo
+else
+  TEXTDOMAINDIR=$locale_dir
+  export TEXTDOMAINDIR
+  TEXTDOMAIN=sharutils
+  export TEXTDOMAIN
+  echo="$gettext_dir/gettext -s"
+fi
+if (echo "testing\c"; echo 1,2,3) | grep c >/dev/null
+then if (echo -n test; echo 1,2,3) | grep n >/dev/null
+     then shar_n= shar_c='
+'
+     else shar_n=-n shar_c= ; fi
+else shar_n= shar_c='\c' ; fi
+f=shar-touch.$$
+st1=200112312359.59
+st2=123123592001.59
+st2tr=123123592001.5 # old SysV 14-char limit
+st3=1231235901
+
+if touch -am -t ${st1} ${f} >/dev/null 2>&1 && \
+   test ! -f ${st1} && test -f ${f}; then
+  shar_touch='touch -am -t $1$2$3$4$5$6.$7 "$8"'
+
+elif touch -am ${st2} ${f} >/dev/null 2>&1 && \
+   test ! -f ${st2} && test ! -f ${st2tr} && test -f ${f}; then
+  shar_touch='touch -am $3$4$5$6$1$2.$7 "$8"'
+
+elif touch -am ${st3} ${f} >/dev/null 2>&1 && \
+   test ! -f ${st3} && test -f ${f}; then
+  shar_touch='touch -am $3$4$5$6$2 "$8"'
+
+else
+  shar_touch=:
+  echo
+  ${echo} 'WARNING: not restoring timestamps.  Consider getting and'
+  ${echo} 'installing GNU `touch'\'', distributed in GNU coreutils...'
+  echo
+fi
+rm -f ${st1} ${st2} ${st2tr} ${st3} ${f}
+#
+if test ! -d ${lock_dir}
+then : ; else ${echo} 'lock directory '${lock_dir}' exists'
+  exit 1
+fi
+if mkdir ${lock_dir}
+then ${echo} 'x - created lock directory `'${lock_dir}\''.'
+else ${echo} 'x - failed to create lock directory `'${lock_dir}\''.'
+  exit 1
+fi
+# ============= cccs.c ==============
+if test -f 'cccs.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING cccs.c (file already exists)'
+else
+${echo} 'x - extracting cccs.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'cccs.c' &&
+#include "macros.h"
+#include "defs.h"
+#include "cccs.h"
+X
+void makeFsrc(Fsrc, numFsrc, buf)
+cccs *Fsrc[];
+int numFsrc;
+char *buf;
+{
+X    cccs *inst;
+X    int j, nodeA, nodeB, cbranchNum, atoi();
+X    char name[MAXFIELD], cname[MAXFIELD], node[MAXFIELD], num[MAXFIELD];
+X    double value, atof();
+X
+X    j = 0;	
+X    j = getNextField(buf, name, j);
+X    j = getNextField(buf, node, j);
+X    nodeA = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeB = getMappedNode(node);
+X    j = getNextField(buf, cname, j);
+X    cbranchNum = getMappedBranch(cname);
+X    j = getNextField(buf, num, j);
+X    value = atof(num);
+X
+X    inst = CALLOC(cccs, 1);
+X    inst->name = (char *)strdup(name);
+X    inst->pNode = nodeA;
+X    inst->nNode = nodeB;
+X    inst->cbranchNum = cbranchNum ;
+X    inst->gain = value;
+X    Fsrc[numFsrc] = inst;
+}
+X
+void printFsrc(Fsrc, numFsrc)
+cccs *Fsrc[];
+int numFsrc;
+{
+X    int i;
+X    cccs *inst;
+X    for(i = 1; i <= numFsrc; i++) {
+X	inst = Fsrc[i];
+X	printf("%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->pNode], NodeArray[inst->nNode], BranchArray[inst->cbranchNum], inst->gain);
+X    }
+}
+X
+void setupFsrc(Fsrc, numFsrc)
+cccs *Fsrc[];
+int numFsrc;
+{
+X    int i;
+X    cccs *inst;
+X
+X    /* do any preprocessing steps here */
+X    for(i = 1; i <= numFsrc; i++) {
+X    }
+}
+X
+void stampFsrc(Fsrc, numFsrc, cktMatrix)
+cccs *Fsrc[];
+int numFsrc;
+double **cktMatrix;
+{
+X    int i, pNode, nNode, cbranchNum;
+X    double gain ;
+X    /* stamp F source*/
+X    for(i = 1; i <= numFsrc; i++) {
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 27 17 26 30 'cccs.c'; eval "$shar_touch") &&
+  chmod 0600 'cccs.c'
+if test $? -ne 0
+then ${echo} 'restore of cccs.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'cccs.c: MD5 check failed'
+       ) << \SHAR_EOF
+9c66f704d305b27030268cfdd2266bb1  cccs.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'cccs.c'` -ne 1492 && \
+  ${echo} 'restoration warning:  size of cccs.c is not 1492'
+  fi
+fi
+# ============= ccvs.c ==============
+if test -f 'ccvs.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING ccvs.c (file already exists)'
+else
+${echo} 'x - extracting ccvs.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'ccvs.c' &&
+#include "macros.h"
+#include "defs.h"
+#include "ccvs.h"
+X
+void makeHsrc(Hsrc, numHsrc, buf)
+ccvs *Hsrc[];
+int numHsrc;
+char *buf;
+{
+X    ccvs *inst;
+X    int j, nodeA, nodeB, cbranchNum, branchNum, atoi();
+X    char name[MAXFIELD], cname[MAXFIELD], node[MAXFIELD], num[MAXFIELD];
+X    double value, atof();
+X
+X    j = 0;	
+X    j = getNextField(buf, name, j);
+X    branchNum = getMappedBranch(name);
+X    j = getNextField(buf, node, j);
+X    nodeA = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeB = getMappedNode(node);
+X    j = getNextField(buf, cname, j);
+X    cbranchNum = getMappedBranch(cname);
+X    j = getNextField(buf, num, j);
+X    value = atof(num);
+X
+X    inst = CALLOC(ccvs, 1);
+X    inst->name = (char *)strdup(name);
+X    inst->pNode = nodeA;
+X    inst->nNode = nodeB;
+X    inst->branchNum = branchNum ;
+X    inst->cbranchNum = cbranchNum ;
+X    inst->Rt = value;
+X    Hsrc[numHsrc] = inst;
+}
+X
+void printHsrc(Hsrc, numHsrc)
+ccvs *Hsrc[];
+int numHsrc;
+{
+X    int i;
+X    ccvs *inst;
+X    for(i = 1; i <= numHsrc; i++) {
+X	inst = Hsrc[i];
+X	printf("%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->pNode], NodeArray[inst->nNode], BranchArray[inst->cbranchNum],  inst->Rt);
+X    }
+}
+X
+void setupHsrc(Hsrc, numHsrc)
+ccvs *Hsrc[];
+int numHsrc;
+{
+X    int i;
+X    ccvs *inst;
+X
+X    /* do any preprocessing steps here */
+X    for(i = 1; i <= numHsrc; i++) {
+X    }
+}
+X
+void stampHsrc(Hsrc, numHsrc, cktMatrix, rhs)
+ccvs *Hsrc[];
+int numHsrc;
+double **cktMatrix;
+double *rhs;
+{
+X    int i, pNode, nNode, cbranchNum, branchNum;
+X    double Rt ;
+X    /* stamp H source*/
+X    for(i = 1; i <= numHsrc; i++) {
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 27 17 27 18 'ccvs.c'; eval "$shar_touch") &&
+  chmod 0600 'ccvs.c'
+if test $? -ne 0
+then ${echo} 'restore of ccvs.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'ccvs.c: MD5 check failed'
+       ) << \SHAR_EOF
+a23b5020d5bac80b76e248d5b44ed6f3  ccvs.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'ccvs.c'` -ne 1600 && \
+  ${echo} 'restoration warning:  size of ccvs.c is not 1600'
+  fi
+fi
+# ============= dio.c ==============
+if test -f 'dio.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING dio.c (file already exists)'
+else
+${echo} 'x - extracting dio.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'dio.c' &&
+#include "macros.h"
+#include "defs.h"
+#include "dio.h"
+X
+void makeDio(Dio, numDio, buf)
+diode *Dio[];
+int numDio;
+char *buf;
+{
+X    diode *inst;
+X    int j, nodeA, nodeB, atoi();
+X    char name[MAXFIELD], mname[MAXFIELD], node[MAXFIELD], num[MAXFIELD];
+X    double value, atof();
+X
+X    j = 0;	
+X    j = getNextField(buf, name, j);
+X    j = getNextField(buf, node, j);
+X    nodeA = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeB = getMappedNode(node);
+X    j = getNextField(buf, mname, j);
+X    j = getNextField(buf, num, j);
+X    value = atof(num);
+X
+X    inst = CALLOC(diode, 1);
+X    inst->name = (char *)strdup(name);
+X    inst->pNode = nodeA;
+X    inst->nNode = nodeB;
+X    inst->mname = (char *)strdup(mname);
+X    inst->area = value;
+X    Dio[numDio] = inst;
+}
+X
+void printDio(Dio, numDio)
+diode *Dio[];
+int numDio;
+{
+X    int i;
+X    diode *inst;
+X
+X    for(i = 1; i <= numDio; i++) {
+X	inst = Dio[i];
+X	printf("%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->pNode], NodeArray[inst->nNode], inst->mname, inst->area);
+X    }
+}
+X
+void setupDio(Dio, numDio)
+diode *Dio[];
+int numDio;
+{
+X    int i;
+X    diode *inst;
+X
+X    /* do any preprocessing steps here */
+X    for(i = 1; i <= numDio; i++) {
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'dio.c'; eval "$shar_touch") &&
+  chmod 0600 'dio.c'
+if test $? -ne 0
+then ${echo} 'restore of dio.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'dio.c: MD5 check failed'
+       ) << \SHAR_EOF
+34ed91ba601bbe9adecc919957f02e5d  dio.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'dio.c'` -ne 1199 && \
+  ${echo} 'restoration warning:  size of dio.c is not 1199'
+  fi
+fi
+# ============= isrc.c ==============
+if test -f 'isrc.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING isrc.c (file already exists)'
+else
+${echo} 'x - extracting isrc.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'isrc.c' &&
+#include "macros.h"
+#include "defs.h"
+#include "isrc.h"
+X
+void makeIsrc(Isrc, numIsrc, buf)
+isource *Isrc[];
+int numIsrc;
+char *buf;
+{
+X    isource *inst;
+X    int j, nodeA, nodeB, atoi();
+X    char name[MAXFIELD], node[MAXFIELD], num[MAXFIELD];
+X    double value, atof();
+X
+X    j = 0;	
+X    j = getNextField(buf, name, j);
+X    j = getNextField(buf, node, j);
+X    nodeA = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeB = getMappedNode(node);
+X    j = getNextField(buf, num, j);
+X    value = atof(num);
+X
+X    inst = CALLOC(isource, 1);
+X    inst->name = (char *)strdup(name);
+X    inst->pNode = nodeA;
+X    inst->nNode = nodeB;
+X    inst->current = value;
+X    Isrc[numIsrc] = inst;
+}
+X
+void printIsrc(Isrc, numIsrc)
+isource *Isrc[];
+int numIsrc;
+{
+X    int i;
+X    isource *inst;
+X    for(i = 1; i <= numIsrc; i++) {
+X	inst = Isrc[i];
+X	printf("%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->pNode], NodeArray[inst->nNode], inst->current);
+X    }
+}
+X
+void setupIsrc(Isrc, numIsrc)
+isource *Isrc[];
+int numIsrc;
+{
+X    int i;
+X    isource *inst;
+X
+X    /* do any preprocessing steps here */
+X    for(i = 1; i <= numIsrc; i++) {
+X    }
+}
+X
+void stampIsrc(Isrc, numIsrc, cktMatrix, Rhs)
+isource *Isrc[];
+int numIsrc;
+double **cktMatrix;
+double *Rhs;
+{
+X    int i, pNode, nNode;
+X    double current;
+X
+X    /* stamp current source*/
+X    for(i = 1; i <= numIsrc; i++) {
+X	pNode = Isrc[i]->pNode;
+X	nNode = Isrc[i]->nNode;
+X	current = Isrc[i]->current;
+X	Rhs[pNode] -= current;
+X	Rhs[nNode] += current;
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'isrc.c'; eval "$shar_touch") &&
+  chmod 0600 'isrc.c'
+if test $? -ne 0
+then ${echo} 'restore of isrc.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'isrc.c: MD5 check failed'
+       ) << \SHAR_EOF
+f6096c9d77e2b57a0b4062e5f8561c81  isrc.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'isrc.c'` -ne 1486 && \
+  ${echo} 'restoration warning:  size of isrc.c is not 1486'
+  fi
+fi
+# ============= main.c ==============
+if test -f 'main.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING main.c (file already exists)'
+else
+${echo} 'x - extracting main.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'main.c' &&
+#include <stdio.h>
+#include "macros.h"
+#include "defs.h"
+#include "res.h"
+#include "isrc.h"
+#include "vsrc.h"
+#include "vcvs.h"
+#include "cccs.h"
+#include "vccs.h"
+#include "ccvs.h"
+#include "dio.h"
+X
+int NumNodes = 0;
+int NumBranches = 0;
+char **NodeArray;
+char **BranchArray;
+X
+main(ac, av)
+char **av;
+{
+X    char *inFile;
+X    FILE *fopen(), *fpIn;
+X    char buf[MAXLINE];
+X    resistor 	*Res[MAXELEM];
+X    isource	*Isrc[MAXELEM];
+X    vsource	*Vsrc[MAXELEM];
+X    vcvs	*Esrc[MAXELEM];
+X    cccs	*Fsrc[MAXELEM];
+X    vccs	*Gsrc[MAXELEM];
+X    ccvs	*Hsrc[MAXELEM];
+X    diode    	*Dio[MAXELEM]; 
+X    int i = 0;
+X    int j = 0;
+X    int numRes = 0;
+X    int numIsrc = 0;
+X    int numVsrc = 0;
+X    int numEsrc = 0;
+X    int numFsrc = 0;
+X    int numGsrc = 0;
+X    int numHsrc = 0;
+X    int numDio = 0;
+X    int numEqns;
+X    double **cktMatrix;
+X    double *Rhs;
+X
+X    switch (ac) {
+X        case 2:
+X            inFile = av[1];
+X            break;
+X        default:
+X            printf( "\n File Name Required \n");
+X            exit(-1);
+X    }
+X    /* initialization */
+X    NodeArray = CALLOC(char *, MAXNODE);
+X    BranchArray = CALLOC(char *, MAXBRANCH);
+X    for(i = 0; i < MAXNODE; i++) {
+X	NodeArray[i] = CALLOC(char, MAXFIELD);
+X    }
+X    for(i = 0; i < MAXBRANCH; i++ ) {
+X	BranchArray[i] = CALLOC(char, MAXFIELD) ;
+X    }
+X    /* fill in ground node */
+X    strcpy(NodeArray[0], (char *)"0");
+X
+X    
+X    fpIn = fopen( inFile, "r" );
+X    while (fgets( buf, MAXLINE, fpIn ) != NULL) {
+X	if(tolower(buf[0]) == 'r') 
+X	{
+X	    /* resistor */
+X	    numRes++;
+X	    makeRes(Res, numRes, buf);
+X	} 
+X	else if(tolower(buf[0]) == 'i') 
+X	{
+X	    /* isource */
+X	    numIsrc++;
+X	    makeIsrc(Isrc, numIsrc, buf);
+X	}
+X	else if(tolower(buf[0]) == 'v') 
+X	{
+X	    /* vsource */
+X	    numVsrc++;
+X	    makeVsrc(Vsrc, numVsrc, buf);
+X	}
+X	else if(tolower(buf[0]) == 'e') 
+X	{
+X	    /* vcvs */
+X	    numEsrc++;
+X	    makeEsrc(Esrc, numEsrc, buf);
+X	}
+X	else if(tolower(buf[0]) == 'f') 
+X	{
+X	    /* cccs */
+X	    numFsrc++;
+X	    makeFsrc(Fsrc, numFsrc, buf);
+X	}
+X	else if(tolower(buf[0]) == 'g') 
+X	{
+X	    /* vccs */
+X	    numGsrc++;
+X	    makeGsrc(Gsrc, numGsrc, buf);
+X	}
+X	else if(tolower(buf[0]) == 'h') 
+X	{
+X	    /* ccvs */
+X	    numHsrc++;
+X	    makeHsrc(Hsrc, numHsrc, buf);
+X	}
+X	else if(tolower(buf[0]) == 'd') 
+X	{
+X	    /* diode */
+X	numDio++;
+X	    makeDio(Dio, numDio, buf);
+X	}
+X    }
+X    fclose( fpIn );
+X
+X    /* print circuit elements */
+X    printRes(Res, numRes);
+X    printIsrc(Isrc, numIsrc); 
+X    printVsrc(Vsrc, numVsrc); 
+X    printEsrc(Esrc, numEsrc); 
+X    printFsrc(Fsrc, numFsrc); 
+X    printGsrc(Gsrc, numGsrc); 
+X    printHsrc(Hsrc, numHsrc); 
+X    printDio(Dio, numDio);
+X
+X    /* setup circuit matrix */
+X    numEqns = NumNodes+NumBranches+1;
+X    cktMatrix = CALLOC(double *, numEqns);
+X    for(i = 0; i <= NumNodes+NumBranches; i++) {
+X	cktMatrix[i] = CALLOC(double, numEqns);
+X    }
+X
+X    /* setup Rhs vector */
+X    Rhs = CALLOC(double, numEqns);
+X    
+X    /* do any preprocessing */
+X    setupRes(Res, numRes);
+X    setupVsrc(Vsrc, numVsrc);
+X    setupEsrc(Esrc, numEsrc);
+X    setupFsrc(Fsrc, numFsrc);
+X    setupGsrc(Gsrc, numGsrc);
+X    setupHsrc(Hsrc, numHsrc);
+X    setupIsrc(Isrc, numIsrc);
+X    setupDio(Dio, numDio);
+X
+X    /* stamp circuit matrix */
+X    stampRes(Res, numRes, cktMatrix, Rhs);
+X    stampIsrc(Isrc, numIsrc, cktMatrix, Rhs);
+X    stampVsrc(Vsrc, numVsrc, cktMatrix, Rhs);
+X    stampEsrc(Esrc, numEsrc, cktMatrix, Rhs);
+X    stampFsrc(Fsrc, numFsrc, cktMatrix, Rhs);
+X    stampGsrc(Gsrc, numGsrc, cktMatrix, Rhs);
+X    stampHsrc(Hsrc, numHsrc, cktMatrix, Rhs);
+X
+X    /* print circuit matrix */
+X    printf("\n");
+X    printMatrix(cktMatrix, NumNodes+NumBranches);
+X
+X    /* print Rhs vector */
+X    printf("\nRHS\n");
+X    for(i = 1; i <= NumNodes+NumBranches; i++) {
+X	printf(" %9.3g\n",Rhs[i]);
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'main.c'; eval "$shar_touch") &&
+  chmod 0600 'main.c'
+if test $? -ne 0
+then ${echo} 'restore of main.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'main.c: MD5 check failed'
+       ) << \SHAR_EOF
+509fd377420a87996baff6f6b8beea52  main.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'main.c'` -ne 3733 && \
+  ${echo} 'restoration warning:  size of main.c is not 3733'
+  fi
+fi
+# ============= res.c ==============
+if test -f 'res.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING res.c (file already exists)'
+else
+${echo} 'x - extracting res.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'res.c' &&
+#include "macros.h"
+#include "defs.h"
+#include "res.h"
+X
+void makeRes(Res, numRes, buf)
+resistor *Res[];
+int numRes;
+char *buf;
+{
+X    resistor *inst;
+X    int j, nodeA, nodeB, atoi();
+X    char name[MAXFIELD], node[MAXFIELD], num[MAXFIELD];
+X    double value, atof();
+X
+X    j = 0;	
+X    j = getNextField(buf, name, j);
+X    j = getNextField(buf, node, j);
+X    nodeA = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeB = getMappedNode(node);
+X    j = getNextField(buf, num, j);
+X    value = atof(num);
+X
+X    inst = CALLOC(resistor, 1);
+X    inst->name = (char *)strdup(name);
+X    inst->pNode = nodeA;
+X    inst->nNode = nodeB;
+X    inst->value = value;
+X    Res[numRes] = inst;
+}
+X
+void printRes(Res, numRes)
+resistor *Res[];
+int numRes;
+{
+X    int i;
+X    resistor *inst;
+X
+X    for(i = 1; i <= numRes; i++) {
+X	inst = Res[i];
+X	printf("%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->pNode], NodeArray[inst->nNode], inst->value);
+X    }
+}
+X
+void setupRes(Res, numRes)
+resistor *Res[];
+int numRes;
+{
+X    int i;
+X    resistor *inst;
+X
+X    /* do any preprocessing steps here */
+X    for(i = 1; i <= numRes; i++) {
+X	inst = Res[i];
+X	inst->conduct = 1.0/inst->value;
+X    }
+}
+X
+void stampRes(Res, numRes, cktMatrix, Rhs)
+resistor *Res[];
+int numRes;
+double **cktMatrix;
+double *Rhs;
+{
+X    int i, pNode, nNode;
+X    double conduct;
+X
+X    /* stamp resistor*/
+X    for(i = 1; i <= numRes; i++) {
+X	pNode = Res[i]->pNode;
+X	nNode = Res[i]->nNode;
+X	conduct = Res[i]->conduct;
+X	cktMatrix[pNode][pNode] += conduct;
+X	cktMatrix[nNode][nNode] += conduct;
+X	cktMatrix[pNode][nNode] -= conduct;
+X	cktMatrix[nNode][pNode] -= conduct;
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'res.c'; eval "$shar_touch") &&
+  chmod 0600 'res.c'
+if test $? -ne 0
+then ${echo} 'restore of res.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'res.c: MD5 check failed'
+       ) << \SHAR_EOF
+a29d14ab0ad00f583cac22601facce50  res.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'res.c'` -ne 1605 && \
+  ${echo} 'restoration warning:  size of res.c is not 1605'
+  fi
+fi
+# ============= utils.c ==============
+if test -f 'utils.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING utils.c (file already exists)'
+else
+${echo} 'x - extracting utils.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'utils.c' &&
+X
+#include <stdio.h>
+#include <strings.h>
+#include "macros.h"
+#include "defs.h"
+X
+int getNextField(input, field, start)
+char *input, *field;
+int start;
+{
+X    int i, j;
+X    for(i=0; i < MAXFIELD; i++, j++) {
+X	field[i] = '\0';
+X    }
+X    for(i = 0, j = start; i < MAXFIELD; i++, j++) {
+X	if (input[j] == ' ' OR input[j] == '\n') break;
+X	field[i] = input[j];
+X    }
+X    /* strip trailing blanks */
+X    while( input[j] == ' ') j++;
+X    return( j );
+}
+X
+/* map a nodename to an integer */
+int getMappedNode(nodeName)
+char *nodeName;
+{
+X    int i;
+X    for(i = 0; i <= NumNodes; i++) {
+X	if(!strcmp(NodeArray[i], nodeName)) return( i );
+X    }
+X    /* node doesn't exist in NodeArray - so insert */
+X    NumNodes++;
+X    strcpy(NodeArray[NumNodes],  nodeName);
+X    return(NumNodes);
+}
+X
+/* map a branch name to an integer */
+int getMappedBranch(branchName)
+char *branchName;
+{
+X    int i;
+X    for(i = 0; i <= NumBranches; i++) {
+X	if(!strcmp(BranchArray[i], branchName)) return( i );
+X    }
+X    /* branch doesn't exist in BranchArray - so insert */
+X    NumBranches++;
+X    strcpy(BranchArray[NumBranches],  branchName);
+X    return(NumBranches);
+}
+X
+/* code adapted from Sparse 1.3 */
+X
+void printMatrix(Matrix, Size)
+double **Matrix;
+int Size;
+{
+register  int  J = 0;
+int I, Row, Col, Top, StartCol = 1, StopCol, Columns, ElementCount = 0;
+X
+/* Print header. */
+X    printf("MATRIX SUMMARY\n\n");
+X    printf("Size of matrix = %1d x %1d.\n", Size, Size);
+X    putchar('\n');
+X
+/* Set how many columns to use. */
+X    Columns = 8;
+X
+/*
+X * Print matrix by printing groups of complete columns until all the columns
+X * are printed.
+X */
+X    J = 0;
+X    while ( J <= Size )
+X
+/* Calculate index of last column to printed in this group. */
+X    {   StopCol = StartCol + Columns - 1;
+X        if (StopCol > Size)
+X            StopCol = Size;
+X
+/* Print every row ...  */
+X        for (I = 1; I <= Size; I++)
+X        {   Row = I;
+/* ... in each column of the group. */
+X            for (J = StartCol; J <= StopCol; J++)
+X            {   Col = J;
+X		printf(" %9.3g", Matrix[I][J]);
+X	    }
+X            putchar('\n');
+X	}
+X
+/* Calculate index of first column in next group. */
+X	StartCol = StopCol;
+X	StartCol++;
+X        putchar('\n');
+X    }
+X    return;
+}
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'utils.c'; eval "$shar_touch") &&
+  chmod 0600 'utils.c'
+if test $? -ne 0
+then ${echo} 'restore of utils.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'utils.c: MD5 check failed'
+       ) << \SHAR_EOF
+131c21f5fc82cf484578c29b2885888f  utils.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'utils.c'` -ne 2198 && \
+  ${echo} 'restoration warning:  size of utils.c is not 2198'
+  fi
+fi
+# ============= vccs.c ==============
+if test -f 'vccs.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING vccs.c (file already exists)'
+else
+${echo} 'x - extracting vccs.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'vccs.c' &&
+#include "macros.h"
+#include "defs.h"
+#include "vccs.h"
+X
+void makeGsrc(Gsrc, numGsrc, buf)
+vccs *Gsrc[];
+int numGsrc;
+char *buf;
+{
+X    vccs *inst;
+X    int j, nodeA, nodeB, nodeC, nodeD, atoi();
+X    char name[MAXFIELD], node[MAXFIELD], num[MAXFIELD];
+X    double value, atof();
+X
+X    j = 0;	
+X    j = getNextField(buf, name, j);
+X    j = getNextField(buf, node, j);
+X    nodeA = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeB = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeC = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeD = getMappedNode(node);
+X    j = getNextField(buf, num, j);
+X    value = atof(num);
+X
+X    inst = CALLOC(vccs, 1);
+X    inst->name = (char *)strdup(name);
+X    inst->pNode = nodeA;
+X    inst->nNode = nodeB;
+X    inst->pCNode = nodeC;
+X    inst->nCNode = nodeD;
+X    inst->Gm = value;
+X    Gsrc[numGsrc] = inst;
+}
+X
+void printGsrc(Gsrc, numGsrc)
+vccs *Gsrc[];
+int numGsrc;
+{
+X    int i;
+X    vccs *inst;
+X    for(i = 1; i <= numGsrc; i++) {
+X	inst = Gsrc[i];
+X	printf("%s\t%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->pNode], NodeArray[inst->nNode], NodeArray[inst->pCNode], NodeArray[inst->nCNode], inst->Gm);
+X    }
+}
+X
+void setupGsrc(Gsrc, numGsrc)
+vccs *Gsrc[];
+int numGsrc;
+{
+X    int i;
+X    vccs *inst;
+X
+X    /* do any preprocessing steps here */
+X    for(i = 1; i <= numGsrc; i++) {
+X    }
+}
+X
+void stampGsrc(Gsrc, numGsrc, cktMatrix, Rhs)
+vccs *Gsrc[];
+int numGsrc;
+double **cktMatrix;
+double *Rhs;
+{
+X    int i, pNode, nNode, pCNode, nCNode;
+X    double Gm;
+X    /* stamp G source*/
+X    for(i = 1; i <= numGsrc; i++) {
+X	pNode = Gsrc[i]->pNode;
+X	nNode = Gsrc[i]->nNode;
+X	pCNode = Gsrc[i]->pCNode;
+X	nCNode = Gsrc[i]->nCNode;
+X	Gm = Gsrc[i]->Gm;
+X	cktMatrix[pNode][pCNode] += Gm;
+X	cktMatrix[pNode][nCNode] -= Gm;
+X	cktMatrix[nNode][pCNode] -= Gm;
+X	cktMatrix[nNode][nCNode] += Gm;
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 27 17 29 48 'vccs.c'; eval "$shar_touch") &&
+  chmod 0600 'vccs.c'
+if test $? -ne 0
+then ${echo} 'restore of vccs.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'vccs.c: MD5 check failed'
+       ) << \SHAR_EOF
+ce02531ffd07de5cf082a9d95d4a376b  vccs.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'vccs.c'` -ne 1846 && \
+  ${echo} 'restoration warning:  size of vccs.c is not 1846'
+  fi
+fi
+# ============= vcvs.c ==============
+if test -f 'vcvs.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING vcvs.c (file already exists)'
+else
+${echo} 'x - extracting vcvs.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'vcvs.c' &&
+#include "macros.h"
+#include "defs.h"
+#include "vcvs.h"
+X
+void makeEsrc(Esrc, numEsrc, buf)
+vcvs *Esrc[];
+int numEsrc;
+char *buf;
+{
+X    vcvs *inst;
+X    int j, nodeA, nodeB, nodeC, nodeD, branchNum, atoi();
+X    char name[MAXFIELD], node[MAXFIELD], num[MAXFIELD];
+X    double value, atof();
+X
+X    j = 0;	
+X    j = getNextField(buf, name, j);
+X    branchNum = getMappedBranch(name);
+X    j = getNextField(buf, node, j);
+X    nodeA = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeB = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeC = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeD = getMappedNode(node);
+X    j = getNextField(buf, num, j);
+X    value = atof(num);
+X
+X    inst = CALLOC(vcvs, 1);
+X    inst->name = (char *)strdup(name);
+X    inst->pNode = nodeA;
+X    inst->nNode = nodeB;
+X    inst->pCNode = nodeC;
+X    inst->nCNode = nodeD;
+X    inst->branchNum = branchNum ;
+X    inst->gain = value;
+X    Esrc[numEsrc] = inst;
+}
+X
+void printEsrc(Esrc, numEsrc)
+vcvs *Esrc[];
+int numEsrc;
+{
+X    int i;
+X    vcvs *inst;
+X    for(i = 1; i <= numEsrc; i++) {
+X	inst = Esrc[i];
+X	printf("%s\t%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->pNode], NodeArray[inst->nNode], NodeArray[inst->pCNode], NodeArray[inst->nCNode], inst->gain);
+X    }
+}
+X
+void setupEsrc(Esrc, numEsrc)
+vcvs *Esrc[];
+int numEsrc;
+{
+X    int i;
+X    vcvs *inst;
+X
+X    /* do any preprocessing steps here */
+X    for(i = 1; i <= numEsrc; i++) {
+X    }
+}
+X
+void stampEsrc(Esrc, numEsrc, cktMatrix, Rhs)
+vcvs *Esrc[];
+int numEsrc;
+double **cktMatrix;
+double *Rhs;
+{
+X    int i, pNode, nNode, pCNode, nCNode, branchNum;
+X    double gain ;
+X    /* stamp E source*/
+X    for(i = 1; i <= numEsrc; i++) {
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 27 17 28 10 'vcvs.c'; eval "$shar_touch") &&
+  chmod 0600 'vcvs.c'
+if test $? -ne 0
+then ${echo} 'restore of vcvs.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'vcvs.c: MD5 check failed'
+       ) << \SHAR_EOF
+05a6b49f71e22100628e43267c4c7739  vcvs.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'vcvs.c'` -ne 1693 && \
+  ${echo} 'restoration warning:  size of vcvs.c is not 1693'
+  fi
+fi
+# ============= vsrc.c ==============
+if test -f 'vsrc.c' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING vsrc.c (file already exists)'
+else
+${echo} 'x - extracting vsrc.c (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'vsrc.c' &&
+#include "macros.h"
+#include "defs.h"
+#include "vsrc.h"
+X
+void makeVsrc(Vsrc, numVsrc, buf)
+vsource *Vsrc[];
+int numVsrc;
+char *buf;
+{
+X    vsource *inst;
+X    int j, nodeA, nodeB, branchNum, atoi();
+X    char name[MAXFIELD], node[MAXFIELD], num[MAXFIELD];
+X    double value, atof();
+X
+X	/* incrementing the number of branches */
+X
+X    j = 0;	
+X    j = getNextField(buf, name, j);
+X    branchNum = getMappedBranch(name);
+X    j = getNextField(buf, node, j);
+X    nodeA = getMappedNode(node);
+X    j = getNextField(buf, node, j);
+X    nodeB = getMappedNode(node);
+X    j = getNextField(buf, num, j);
+X    value = atof(num);
+X
+X    inst = CALLOC(vsource, 1);
+X    inst->name = (char *)strdup(name);
+X    inst->pNode = nodeA;
+X    inst->nNode = nodeB;
+X    inst->branchNum = branchNum ;
+X    inst->voltage = value;
+X    Vsrc[numVsrc] = inst;
+}
+X
+void printVsrc(Vsrc, numVsrc)
+vsource *Vsrc[];
+int numVsrc;
+{
+X    int i;
+X    vsource *inst;
+X
+X    for(i = 1; i <= numVsrc; i++) {
+X	inst = Vsrc[i];
+X	printf("%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->pNode], NodeArray[inst->nNode], inst->voltage);
+X    }
+}
+X
+void setupVsrc(Vsrc, numVsrc)
+vsource *Vsrc[];
+int numVsrc;
+{
+X    int i;
+X    vsource *inst;
+X
+X    /* do any preprocessing steps here */
+X    for(i = 1; i <= numVsrc; i++) {
+X	inst = Vsrc[i];
+X	inst->branchNum += NumNodes;
+X    }
+}
+X
+void stampVsrc(Vsrc, numVsrc, cktMatrix, Rhs)
+vsource *Vsrc[];
+int numVsrc;
+double **cktMatrix;
+double *Rhs;
+{
+X    int i, pNode, nNode, branchNum;
+X    vsource *inst;
+X    double voltage;
+X	
+X    /* stamp voltage source*/
+X    for(i = 1; i <= numVsrc; i++) {
+X	inst = Vsrc[i];
+X	pNode = inst->pNode;
+X	nNode = inst->nNode;
+X	branchNum = inst->branchNum;
+X	voltage = inst->voltage;
+X 	cktMatrix[pNode][branchNum] += 1;
+X 	cktMatrix[nNode][branchNum] -= 1;
+X 	cktMatrix[branchNum][pNode] += 1;
+X 	cktMatrix[branchNum][nNode] -= 1;
+X	Rhs[branchNum] += voltage;
+X    }
+}
+SHAR_EOF
+  (set 20 10 09 30 15 33 36 'vsrc.c'; eval "$shar_touch") &&
+  chmod 0600 'vsrc.c'
+if test $? -ne 0
+then ${echo} 'restore of vsrc.c failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'vsrc.c: MD5 check failed'
+       ) << \SHAR_EOF
+b8f51a4827d9da07023a1f9f2bdddfaf  vsrc.c
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'vsrc.c'` -ne 1855 && \
+  ${echo} 'restoration warning:  size of vsrc.c is not 1855'
+  fi
+fi
+# ============= cccs.h ==============
+if test -f 'cccs.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING cccs.h (file already exists)'
+else
+${echo} 'x - extracting cccs.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'cccs.h' &&
+/* information used to describe a single instance */
+X
+typedef struct cccs{
+X    char *name;  /* pointer to character string naming this cccs */
+X    int pNode; /* number of positive node of cccs */
+X    int nNode; /* number of negative node of cccs */
+X    int cbranchNum ; /* number of control branch */
+X    double gain;  /* value of current gain */
+} cccs ;
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'cccs.h'; eval "$shar_touch") &&
+  chmod 0600 'cccs.h'
+if test $? -ne 0
+then ${echo} 'restore of cccs.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'cccs.h: MD5 check failed'
+       ) << \SHAR_EOF
+b905178210c5d63b9805fac76fa9cca7  cccs.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'cccs.h'` -ne 357 && \
+  ${echo} 'restoration warning:  size of cccs.h is not 357'
+  fi
+fi
+# ============= ccvs.h ==============
+if test -f 'ccvs.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING ccvs.h (file already exists)'
+else
+${echo} 'x - extracting ccvs.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'ccvs.h' &&
+/* information used to describe a single instance */
+X
+typedef struct ccvs{
+X    char *name;  /* pointer to character string naming this ccvs */
+X    int pNode; /* number of positive node of ccvs */
+X    int nNode; /* number of negative node of ccvs */
+X    int cbranchNum ; /* number of control branch */
+X    int branchNum ; /* number of ccvs branch */
+X    double Rt;  /* value of trans-resistance */
+} ccvs ;
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'ccvs.h'; eval "$shar_touch") &&
+  chmod 0600 'ccvs.h'
+if test $? -ne 0
+then ${echo} 'restore of ccvs.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'ccvs.h: MD5 check failed'
+       ) << \SHAR_EOF
+29e80feb447ddcfd09067e2500200f8d  ccvs.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'ccvs.h'` -ne 407 && \
+  ${echo} 'restoration warning:  size of ccvs.h is not 407'
+  fi
+fi
+# ============= defs.h ==============
+if test -f 'defs.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING defs.h (file already exists)'
+else
+${echo} 'x - extracting defs.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'defs.h' &&
+#define MAXLINE 132
+#define MAXFIELD 16
+#define MAXNODE 100
+#define MAXBRANCH 100
+#define MAXELEM 100
+extern int NumNodes;
+extern int NumBranches;
+extern char **NodeArray;
+extern char **BranchArray;
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'defs.h'; eval "$shar_touch") &&
+  chmod 0600 'defs.h'
+if test $? -ne 0
+then ${echo} 'restore of defs.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'defs.h: MD5 check failed'
+       ) << \SHAR_EOF
+d70259deeae37e9a57572364ad394426  defs.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'defs.h'` -ne 199 && \
+  ${echo} 'restoration warning:  size of defs.h is not 199'
+  fi
+fi
+# ============= dio.h ==============
+if test -f 'dio.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING dio.h (file already exists)'
+else
+${echo} 'x - extracting dio.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'dio.h' &&
+/* information used to describe a single instance */
+X
+typedef struct diode{
+X    char *name;  /* pointer to character string naming this instance */
+X    int pNode; /* number of positive node of resistor */
+X    int nNode; /* number of negative node of resistor */
+X
+X    char *mname;  /* pointer to character string naming the model */
+X    double area;  /* area factor */
+} diode ;
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'dio.h'; eval "$shar_touch") &&
+  chmod 0600 'dio.h'
+if test $? -ne 0
+then ${echo} 'restore of dio.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'dio.h: MD5 check failed'
+       ) << \SHAR_EOF
+edb087239ff0f1419971184f1786dd57  dio.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'dio.h'` -ne 379 && \
+  ${echo} 'restoration warning:  size of dio.h is not 379'
+  fi
+fi
+# ============= isrc.h ==============
+if test -f 'isrc.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING isrc.h (file already exists)'
+else
+${echo} 'x - extracting isrc.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'isrc.h' &&
+/* information used to describe a single instance */
+X
+typedef struct isource{
+X    char *name;  /* pointer to character string naming this isource */
+X    int pNode; /* number of positive node of isource */
+X    int nNode; /* number of negative node of isource */
+X
+X    double current;  /* value of isource */
+} isource ;
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'isrc.h'; eval "$shar_touch") &&
+  chmod 0600 'isrc.h'
+if test $? -ne 0
+then ${echo} 'restore of isrc.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'isrc.h: MD5 check failed'
+       ) << \SHAR_EOF
+42e864c4a059f95564c683422535a12a  isrc.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'isrc.h'` -ne 319 && \
+  ${echo} 'restoration warning:  size of isrc.h is not 319'
+  fi
+fi
+# ============= macros.h ==============
+if test -f 'macros.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING macros.h (file already exists)'
+else
+${echo} 'x - extracting macros.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'macros.h' &&
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+X
+/* 
+X * BOOLEANS
+X */
+X
+#define  BOOLEAN	int
+#define  FALSE		0
+#define  TRUE		1
+#define  YES            1
+#define  NO             0
+#define  NOT		!
+#define  AND		&&
+#define  OR		||
+#define  IS		==
+#define  ISNOT          !=
+X
+X
+#define NIL(type) 	((type *)0)
+X
+/* 
+X * RELATIONAL
+X */
+X
+/* Macro functions that return the maximun or minimum independent of type. */
+#define  MAX(a,b)           ((a) > (b) ? (a) : (b))
+#define  MIN(a,b)           ((a) < (b) ? (a) : (b))
+X
+/* Macro function that returns the absolute value of a floating point number. */
+#define  ABS(a)             ((a) < 0.0 ? -(a) : (a))
+#define  SIGN(a)            ((a) < 0.0 ? -(1.0) : (1.0))
+X
+/* Macro procedure that swaps two entities. */
+#define  SWAP(type, a, b)   {type swapx; swapx = a; a = b; b = swapx;}
+X
+X
+/*
+X * MEMORY ALLOCATION
+X */
+X
+#define MALLOC(type,number)  (type *)malloc((unsigned)(sizeof(type)*(number)))
+#define CALLOC(type,number)  (type *)calloc((number), (unsigned)(sizeof(type)))
+#define REALLOC(ptr,type,number)  \
+X           ptr = (type *)realloc((char *)ptr,(unsigned)(sizeof(type)*(number)))
+#define FREE(pointer)  \
+X	   {  if ((pointer) != NULL) free((char *)pointer); (pointer) = NULL; }
+X
+X
+SHAR_EOF
+  (set 20 16 09 20 14 50 47 'macros.h'; eval "$shar_touch") &&
+  chmod 0600 'macros.h'
+if test $? -ne 0
+then ${echo} 'restore of macros.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'macros.h: MD5 check failed'
+       ) << \SHAR_EOF
+60a4cb1fae7590e5309c4a85f258bb80  macros.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'macros.h'` -ne 1237 && \
+  ${echo} 'restoration warning:  size of macros.h is not 1237'
+  fi
+fi
+# ============= res.h ==============
+if test -f 'res.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING res.h (file already exists)'
+else
+${echo} 'x - extracting res.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'res.h' &&
+/* information used to describe a single instance */
+X
+typedef struct resistor{
+X    char *name;  /* pointer to character string naming this instance */
+X    int pNode; /* number of positive node of resistor */
+X    int nNode; /* number of negative node of resistor */
+X
+X    double value;  /* resistance */
+X    double conduct;  /* conductance */
+} resistor ;
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'res.h'; eval "$shar_touch") &&
+  chmod 0600 'res.h'
+if test $? -ne 0
+then ${echo} 'restore of res.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'res.h: MD5 check failed'
+       ) << \SHAR_EOF
+d7ac935d21e3d3797abc6a6f4e9e9521  res.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'res.h'` -ne 355 && \
+  ${echo} 'restoration warning:  size of res.h is not 355'
+  fi
+fi
+# ============= vccs.h ==============
+if test -f 'vccs.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING vccs.h (file already exists)'
+else
+${echo} 'x - extracting vccs.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'vccs.h' &&
+/* information used to describe a single instance */
+X
+typedef struct vccs{
+X    char *name;  /* pointer to character string naming this vccs */
+X    int pNode; /* number of positive node of vccs */
+X    int nNode; /* number of negative node of vccs */
+X    int pCNode; /* number of positive control node of vccs */
+X    int nCNode; /* number of negative control node of vccs */
+X    double Gm;  /* value of trans-conductance */
+} vccs ;
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'vccs.h'; eval "$shar_touch") &&
+  chmod 0600 'vccs.h'
+if test $? -ne 0
+then ${echo} 'restore of vccs.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'vccs.h: MD5 check failed'
+       ) << \SHAR_EOF
+7b66e55a9723cce222bfd0bcbf24c609  vccs.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'vccs.h'` -ne 432 && \
+  ${echo} 'restoration warning:  size of vccs.h is not 432'
+  fi
+fi
+# ============= vcvs.h ==============
+if test -f 'vcvs.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING vcvs.h (file already exists)'
+else
+${echo} 'x - extracting vcvs.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'vcvs.h' &&
+/* information used to describe a single instance */
+X
+typedef struct vcvs{
+X    char *name;  /* pointer to character string naming this vcvs */
+X    int pNode; /* number of positive node of vcvs */
+X    int nNode; /* number of negative node of vcvs */
+X    int pCNode; /* number of positive control node of vcvs */
+X    int nCNode; /* number of negative control node of vcvs */
+X	int branchNum ; /* number of branch */
+X    double gain;  /* value of gain */
+} vcvs ;
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'vcvs.h'; eval "$shar_touch") &&
+  chmod 0600 'vcvs.h'
+if test $? -ne 0
+then ${echo} 'restore of vcvs.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'vcvs.h: MD5 check failed'
+       ) << \SHAR_EOF
+9b148c29f81b61992a4cd519bb8f8bdb  vcvs.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'vcvs.h'` -ne 461 && \
+  ${echo} 'restoration warning:  size of vcvs.h is not 461'
+  fi
+fi
+# ============= vsrc.h ==============
+if test -f 'vsrc.h' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING vsrc.h (file already exists)'
+else
+${echo} 'x - extracting vsrc.h (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'vsrc.h' &&
+/* information used to describe a single instance */
+X
+typedef struct vsource{
+X    char *name;  /* pointer to character string naming this vsource */
+X    int pNode; /* number of positive node of vsource */
+X    int nNode; /* number of negative node of vsource */
+X	int branchNum ; /* number of branch */
+X    double voltage;  /* value of vsource */
+} vsource ;
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'vsrc.h'; eval "$shar_touch") &&
+  chmod 0600 'vsrc.h'
+if test $? -ne 0
+then ${echo} 'restore of vsrc.h failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'vsrc.h: MD5 check failed'
+       ) << \SHAR_EOF
+6a79585bbe51b113a6c3d03c45cead54  vsrc.h
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'vsrc.h'` -ne 358 && \
+  ${echo} 'restoration warning:  size of vsrc.h is not 358'
+  fi
+fi
+# ============= Makefile ==============
+if test -f 'Makefile' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING Makefile (file already exists)'
+else
+${echo} 'x - extracting Makefile (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'Makefile' &&
+CC = gcc
+CFLAGS=	-g
+CSRC=	main.c utils.c res.c isrc.c vsrc.c vcvs.c vccs.c ccvs.c cccs.c dio.c
+COBJ=	main.o utils.o res.o isrc.o vsrc.o vcvs.o vccs.o ccvs.o cccs.o dio.o
+X
+X.c.o:	${CSRC}
+X	${CC} ${CFLAGS} -c $*.c
+myspice: ${COBJ} 
+X	${CC} ${CFLAGS} -o myspice ${COBJ} -lm
+clean:
+X	rm myspice ${COBJ}
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'Makefile'; eval "$shar_touch") &&
+  chmod 0600 'Makefile'
+if test $? -ne 0
+then ${echo} 'restore of Makefile failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'Makefile: MD5 check failed'
+       ) << \SHAR_EOF
+7c30c47019e3f04f4ff39cb412b17515  Makefile
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'Makefile'` -ne 295 && \
+  ${echo} 'restoration warning:  size of Makefile is not 295'
+  fi
+fi
+# ============= test1.ckt ==============
+if test -f 'test1.ckt' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING test1.ckt (file already exists)'
+else
+${echo} 'x - extracting test1.ckt (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'test1.ckt' &&
+r1 a1 0 1
+i1 0 a1 10
+r2 a1 node2 100
+r3 node2 node3 100
+r4 node3 4 100
+r5 4 0 100
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'test1.ckt'; eval "$shar_touch") &&
+  chmod 0600 'test1.ckt'
+if test $? -ne 0
+then ${echo} 'restore of test1.ckt failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'test1.ckt: MD5 check failed'
+       ) << \SHAR_EOF
+08dc5fc96bb839d60354c45ed32baab5  test1.ckt
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'test1.ckt'` -ne 82 && \
+  ${echo} 'restoration warning:  size of test1.ckt is not 82'
+  fi
+fi
+# ============= test2.ckt ==============
+if test -f 'test2.ckt' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING test2.ckt (file already exists)'
+else
+${echo} 'x - extracting test2.ckt (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'test2.ckt' &&
+i1 0 1 2
+r1 1 node2 1
+r2 node2 0 1
+g1 3 node4 1 node2 10
+r3 3 0 1
+r4 node4 0 1
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'test2.ckt'; eval "$shar_touch") &&
+  chmod 0600 'test2.ckt'
+if test $? -ne 0
+then ${echo} 'restore of test2.ckt failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'test2.ckt: MD5 check failed'
+       ) << \SHAR_EOF
+be5e8733f5f52f195a798510a23c08a3  test2.ckt
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'test2.ckt'` -ne 79 && \
+  ${echo} 'restoration warning:  size of test2.ckt is not 79'
+  fi
+fi
+# ============= test3.ckt ==============
+if test -f 'test3.ckt' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING test3.ckt (file already exists)'
+else
+${echo} 'x - extracting test3.ckt (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'test3.ckt' &&
+r2 node4 1 100
+r3 1 2 100
+r4 2 3 100
+r5 3 0 100
+v1 node4 0 10
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'test3.ckt'; eval "$shar_touch") &&
+  chmod 0600 'test3.ckt'
+if test $? -ne 0
+then ${echo} 'restore of test3.ckt failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'test3.ckt: MD5 check failed'
+       ) << \SHAR_EOF
+8a6ad1cb42e746029cd0a52d12ea0b0f  test3.ckt
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'test3.ckt'` -ne 62 && \
+  ${echo} 'restoration warning:  size of test3.ckt is not 62'
+  fi
+fi
+# ============= test4.ckt ==============
+if test -f 'test4.ckt' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING test4.ckt (file already exists)'
+else
+${echo} 'x - extracting test4.ckt (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'test4.ckt' &&
+v1 1 0 10
+r3 1 node2 100
+r4 node2 node3 100
+r5 node3 4 100
+r1 4 0 100
+X
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'test4.ckt'; eval "$shar_touch") &&
+  chmod 0600 'test4.ckt'
+if test $? -ne 0
+then ${echo} 'restore of test4.ckt failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'test4.ckt: MD5 check failed'
+       ) << \SHAR_EOF
+9bf8dac7429c829124d27636f65d7afa  test4.ckt
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'test4.ckt'` -ne 71 && \
+  ${echo} 'restoration warning:  size of test4.ckt is not 71'
+  fi
+fi
+# ============= test5.ckt ==============
+if test -f 'test5.ckt' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING test5.ckt (file already exists)'
+else
+${echo} 'x - extracting test5.ckt (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'test5.ckt' &&
+v1 1 2 20
+r1 1 0 2
+r2 2 3 6
+r3 3 0 4
+r4 1 4 3
+r5 4 0 1
+i1 0 2 10
+e1 3 4 1 4 3
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'test5.ckt'; eval "$shar_touch") &&
+  chmod 0600 'test5.ckt'
+if test $? -ne 0
+then ${echo} 'restore of test5.ckt failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'test5.ckt: MD5 check failed'
+       ) << \SHAR_EOF
+524ae2711f3d3fddc76ab7737f3060ae  test5.ckt
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'test5.ckt'` -ne 78 && \
+  ${echo} 'restoration warning:  size of test5.ckt is not 78'
+  fi
+fi
+# ============= test6.ckt ==============
+if test -f 'test6.ckt' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING test6.ckt (file already exists)'
+else
+${echo} 'x - extracting test6.ckt (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'test6.ckt' &&
+v1 4 0 10
+vm 4 1 0
+r1 1 2 2
+r2 2 0 8
+r3 2 3 4
+f1 3 0 vm 3
+i1 5 3 5
+r4 5 0 6
+r6 5 3 2
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'test6.ckt'; eval "$shar_touch") &&
+  chmod 0600 'test6.ckt'
+if test $? -ne 0
+then ${echo} 'restore of test6.ckt failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'test6.ckt: MD5 check failed'
+       ) << \SHAR_EOF
+d5de64862c89384ca7b4b0953d9f7d9a  test6.ckt
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'test6.ckt'` -ne 85 && \
+  ${echo} 'restoration warning:  size of test6.ckt is not 85'
+  fi
+fi
+# ============= test7.ckt ==============
+if test -f 'test7.ckt' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING test7.ckt (file already exists)'
+else
+${echo} 'x - extracting test7.ckt (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'test7.ckt' &&
+v1 4 0 24
+vm 4 1 0
+r1 1 2 10
+r2 2 0 12
+r3 4 3 24
+r4 2 3 4
+h1 3 0 vm 4
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'test7.ckt'; eval "$shar_touch") &&
+  chmod 0600 'test7.ckt'
+if test $? -ne 0
+then ${echo} 'restore of test7.ckt failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'test7.ckt: MD5 check failed'
+       ) << \SHAR_EOF
+a0fc010e296b5d26d55f21f3a76f533f  test7.ckt
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'test7.ckt'` -ne 70 && \
+  ${echo} 'restoration warning:  size of test7.ckt is not 70'
+  fi
+fi
+# ============= test.ckt ==============
+if test -f 'test.ckt' && test "$first_param" != -c; then
+  ${echo} 'x -SKIPPING test.ckt (file already exists)'
+else
+${echo} 'x - extracting test.ckt (text)'
+  sed 's/^X//' << 'SHAR_EOF' > 'test.ckt' &&
+r1      1                                3                           1.0
+d1 1 2    dmod 2.0
+X
+X
+d3 2 3  dmod2 1
+v2 3 0 5
+d4 1 3  dmod 3
+cyy 4 0 1e-12
+v100 3 4 2.5
+dfoo 3 2 dmod 1
+X
+m1 1 2 3 4 mmod 1          1
+m2 2 3          3 0 mmod2 10 2
+cxx 3 0 1e-12
+mdiode          2 2 3 0 mmod 10 10
+X
+v1 1 0 1
+X
+r2 2 0 3.0
+g1 1 2 3          4 2.0
+r3 3      4 5.0
+X
+i1 2 0 3
+i2 1 3 2.5
+X
+c1 2 3          3e-12
+X
+X
+e1 1 2 3 4          1
+h1          3 4 1 2 1.5
+f1 3          4 2 0 5.5
+SHAR_EOF
+  (set 20 10 09 27 17 20 28 'test.ckt'; eval "$shar_touch") &&
+  chmod 0600 'test.ckt'
+if test $? -ne 0
+then ${echo} 'restore of test.ckt failed'
+fi
+  if ${md5check}
+  then (
+       ${MD5SUM} -c >/dev/null 2>&1 || ${echo} 'test.ckt: MD5 check failed'
+       ) << \SHAR_EOF
+643db392d7be286a3a82e1692d316c23  test.ckt
+SHAR_EOF
+  else
+test `LC_ALL=C wc -c < 'test.ckt'` -ne 465 && \
+  ${echo} 'restoration warning:  size of test.ckt is not 465'
+  fi
+fi
+if rm -fr ${lock_dir}
+then ${echo} 'x - removed lock directory `'${lock_dir}\''.'
+else ${echo} 'x - failed to remove lock directory `'${lock_dir}\''.'
+  exit 1
+fi
+exit 0
+

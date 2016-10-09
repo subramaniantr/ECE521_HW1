@@ -1,0 +1,6 @@
+i1 0 1 2
+r1 1 node2 1
+r2 node2 0 1
+g1 3 node4 1 node2 10
+r3 3 0 1
+r4 node4 0 1
