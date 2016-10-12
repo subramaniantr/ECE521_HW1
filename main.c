@@ -11,6 +11,7 @@
 #include "dio.h"
 #include "tf.h"
 #include "gyro.h"
+#include "opamp.h"
 
 int NumNodes = 0;
 int NumBranches = 0;
@@ -33,6 +34,7 @@ char **av;
     diode    	*Dio[MAXELEM]; 
     transformer    *Tf[MAXELEM]; 
     gyrator    *Gyro[MAXELEM]; 
+    opamp      *Op[MAXELEM]; 
     int i = 0;
     int j = 0;
     int numRes = 0;
@@ -45,6 +47,7 @@ char **av;
     int numDio = 0;
     int numTf = 0;
     int numGyro = 0;
+    int numOp = 0;
     int numEqns;
     double **cktMatrix;
     double *Rhs;
@@ -132,6 +135,12 @@ char **av;
 	numGyro++;
 	    makeGyro(Gyro, numGyro, buf);
 	}
+	else if(tolower(buf[0]) == 'o') 
+	{
+	    /* opamp */
+	numOp++;
+	    makeOp(Op, numOp, buf);
+	}
     }
     fclose( fpIn );
 
@@ -146,6 +155,7 @@ char **av;
     printDio(Dio, numDio);
     printTf(Tf, numTf);
     printGyro(Gyro, numGyro);
+    printOp(Op, numOp);
 
     /* setup circuit matrix */
     numEqns = NumNodes+NumBranches+1;
@@ -168,6 +178,7 @@ char **av;
     setupDio(Dio, numDio);
     setupTf(Tf, numTf);
     setupGyro(Gyro, numGyro);
+    setupOp(Op, numOp);
 
     /* stamp circuit matrix */
     stampRes(Res, numRes, cktMatrix, Rhs);
@@ -179,6 +190,7 @@ char **av;
     stampHsrc(Hsrc, numHsrc, cktMatrix, Rhs);
     stampTf(Tf, numTf, cktMatrix, Rhs);
     stampGyro(Gyro, numGyro, cktMatrix, Rhs);
+    stampOp(Op, numOp, cktMatrix, Rhs);
 
     /* print circuit matrix */
     printf("\n");

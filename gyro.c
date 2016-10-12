@@ -27,10 +27,10 @@ char *buf;
 
     inst = CALLOC(gyrator, 1);
     inst->name = (char *)strdup(name);
-    inst->p1Node = nodeA;
-    inst->n1Node = nodeB;
-    inst->p2Node = nodeC;
-    inst->n2Node = nodeD;
+    inst->p2Node = nodeA;
+    inst->n2Node = nodeB;
+    inst->p1Node = nodeC;
+    inst->n1Node = nodeD;
     inst->g = value;
     Gyro[numGyro] = inst;
 }
@@ -76,13 +76,13 @@ double *Rhs;
 	n1Node = Gyro[i]->n1Node;
         g      = Gyro[i]->g;
         //KCL for p2Node,n2Node,p1Node and n1Node
- 	cktMatrix[p1Node][p2Node] += g; 
- 	cktMatrix[p1Node][n2Node] -= g;
- 	cktMatrix[n1Node][p2Node] -= g;
- 	cktMatrix[n1Node][n2Node] += g;
- 	cktMatrix[p2Node][p1Node] -= g;
- 	cktMatrix[p2Node][n1Node] += g;
- 	cktMatrix[n2Node][p1Node] += g;
- 	cktMatrix[n2Node][n1Node] -= g;
+ 	cktMatrix[p1Node][p2Node] -= g; 
+ 	cktMatrix[p1Node][n2Node] += g;
+ 	cktMatrix[n1Node][p2Node] += g;
+ 	cktMatrix[n1Node][n2Node] -= g;
+ 	cktMatrix[p2Node][p1Node] += g;
+ 	cktMatrix[p2Node][n1Node] -= g;
+ 	cktMatrix[n2Node][p1Node] -= g;
+ 	cktMatrix[n2Node][n1Node] += g;
     }
 }

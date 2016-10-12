@@ -14,7 +14,7 @@ char *buf;
 
     j = 0;	
     j = getNextField(buf, name, j);
-    NumBranches++;
+    NumBranches++; // Adding an extra Branch current variable
     branchNum = NumBranches;
     j = getNextField(buf, node, j);
     nodeA = getMappedNode(node);
@@ -29,10 +29,10 @@ char *buf;
 
     inst = CALLOC(transformer, 1);
     inst->name = (char *)strdup(name);
-    inst->p1Node = nodeA;
-    inst->n1Node = nodeB;
-    inst->p2Node = nodeC;
-    inst->n2Node = nodeD;
+    inst->p2Node = nodeA;
+    inst->n2Node = nodeB;
+    inst->p1Node = nodeC;
+    inst->n1Node = nodeD;
     inst->branchNum = branchNum ;
     inst->n = value;
     Tf[numTf] = inst;
@@ -46,7 +46,7 @@ int numTf;
     transformer *inst;
     for(i = 1; i <= numTf; i++) {
 	inst = Tf[i];
-	printf("%s\t%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->p2Node], NodeArray[inst->n2Node], NodeArray[inst->p1Node], NodeArray[inst->n1Node], inst->n);
+	printf("%s\t%s\t%s\t%s\t%s\t%f\n", inst->name, NodeArray[inst->p1Node], NodeArray[inst->n1Node], NodeArray[inst->p2Node], NodeArray[inst->n2Node], inst->n);
     }
 }
 
@@ -87,9 +87,9 @@ double *Rhs;
  	cktMatrix[p2Node][branchNum] -= n; 
  	cktMatrix[n2Node][branchNum] += n;
         //BCE for Transformer : (V1p-V1n)-n*(V2p-V2n)=0
- 	cktMatrix[branchNum][p1Node] -= 1;
- 	cktMatrix[branchNum][n1Node] += 1;
- 	cktMatrix[branchNum][p2Node] += n;
- 	cktMatrix[branchNum][n2Node] -= n;
+ 	cktMatrix[branchNum][p1Node] += 1;
+ 	cktMatrix[branchNum][n1Node] -= 1;
+ 	cktMatrix[branchNum][p2Node] -= n;
+ 	cktMatrix[branchNum][n2Node] += n;
     }
 }
